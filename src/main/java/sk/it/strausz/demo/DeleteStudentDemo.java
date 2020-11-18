@@ -3,13 +3,11 @@ package sk.it.strausz.demo;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
-
 import sk.it.strausz.entity.Student;
 
-public class CreateStudentDemo {
+public class DeleteStudentDemo {
 
     public static void main(String[] args) {
-
 
         SessionFactory factory = new Configuration()
                 .configure("/hibernate.cfg.xml")
@@ -20,16 +18,34 @@ public class CreateStudentDemo {
 
         try{
 
-            Student tempStudent = new Student("Paul", "Wall", "paul@gmail.com");
+            int studentId = 1;
 
+            session = factory.getCurrentSession();
             session.beginTransaction();
 
-            session.save(tempStudent);
+
+
+
+            Student myStudent = session.get(Student.class, studentId);
+//
+//            System.out.println(myStudent + " deleted");
+//            session.delete(myStudent);
+
+            session.createQuery("delete from Student  where  id=2").executeUpdate();
+
 
             session.getTransaction().commit();
+
+
+
+
+
         }finally {
             factory.close();
         }
 
+
+
     }
+
 }
